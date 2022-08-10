@@ -1,14 +1,28 @@
 import React from 'react'
-import logo from './logo.svg';
+import { Router, Routes, Route } from 'react-router-dom'
+// import logo from './logo.svg';
 import './App.css';
+import './components/Form/Upload'
+import { Button } from 'semantic-ui-react'
+import Upload from './components/Form/Upload';
+import NavBar from './components/NavBar/NavBar';
+
+
 
 function App() {
+  const ButtonExampleButton = () => <Button>Click Here</Button>
   return (
     <div className="App">
+      {/* <Router> */}
+      <NavBar />
+      {/* <Routes>
+
+        </Routes> */}
+      {/* </Router> */}
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <img src="" className="App-logo" alt="logo" /> */}
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edit <Button>Click Here</Button> <code>src/App.js</code> and save to reload.
         </p>
         <a
           className="App-link"
@@ -18,6 +32,7 @@ function App() {
         >
           Learn React
         </a>
+        <Upload></Upload>
       </header>
     </div>
   );
