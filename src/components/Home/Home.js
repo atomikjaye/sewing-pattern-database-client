@@ -1,13 +1,15 @@
 import React from 'react'
 import { Header } from 'semantic-ui-react'
+import PatternDisplay from './../Patterns/PatternsDisplay'
 
 const Home = () => {
 
   return (
     <>
       <Header>
-        Home
+        My Patterns
       </Header>
+      <PatternDisplay />
     </>
   )
 

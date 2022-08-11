@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 import { Menu, Image } from 'semantic-ui-react'
 
-export default function Navbar() {
+const NavBar = () => {
   return (
     <Menu fixed='top' pointing inverted>
       <Menu.Item as='a' header>
@@ -22,3 +22,5 @@ export default function Navbar() {
     // <div>Hi</div>
   )
 }
+
+export default NavBar
