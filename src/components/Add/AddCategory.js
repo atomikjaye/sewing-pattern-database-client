@@ -4,6 +4,7 @@ import React from 'react'
 const UploadPage = ({ categoriesObject }) => {
 
   return (
+    <></>
     // <Upload categoriesObject={categoriesObject} />
   )
 

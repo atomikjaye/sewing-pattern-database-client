@@ -2,22 +2,41 @@ import React, { useState } from 'react'
 import FileBase64 from 'react-file-base64'
 import { Form, Divider, Header, Input, TextArea, Button } from 'semantic-ui-react'
 
-function handleChange(e, data) {
-  console.log(e)
-  console.log(data)
-}
 
 
 const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
-  const [patternCode, setpatternCode] = useState('')
-  const [patternCompany, setpatternCompany] = useState(0)
-  const [notions, setNotions] = useState([])
+  const [patternCode, setPatternCode] = useState('')
+  const [patternCompany, setPatternCompany] = useState(0)
+  const [notions, setNotions] = useState('')
   const [size, setSize] = useState('')
   const [yardage, setYardage] = useState(0)
   const [extras, setExtras] = useState('')
   const [image, setImage] = useState('https://via.placeholder.com/150x200?text=Sewing+Pattern')
   const [fabricList, setFabricList] = useState([])
   const [categoryList, setCategoryList] = useState([])
+
+
+  function handleChange(e, data) {
+    if (data.name === 'patternCode') {
+      setPatternCode(data.value)
+    } else if (data.name === 'patternCompanies') {
+      setPatternCompany(data.value)
+    } else if (data.name === 'notions') {
+      setNotions(data.value)
+    } else if (data.name === 'size') {
+      setSize(data.value)
+    } else if (data.name === 'yardage') {
+      setYardage(data.value)
+    } else if (data.name === 'extras') {
+      setExtras(data.value)
+    } else if (data.name === 'image') {
+      setImage(data.value)
+    } else if (data.name === 'fabrics') {
+      setFabricList(data.value)
+    } else if (data.name === 'categories') {
+      setCategoryList(data.value)
+    }
+  }
 
 
   function categories() {
@@ -56,20 +75,31 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
     image: "/images/S8561_envelope_front__14083.jpg"
   }
 
-  // function handleSubmit(e) {
-  //   e.preventDefault()
+  function handleSubmit(e) {
+    e.preventDefault()
+    console.log('Hello')
 
+    const formData = {
+      company_id: patternCompany,
+      pattern_code: patternCode,
+      notions: notions,
+      size: size,
+      yardage: yardage,
+      extras: extras,
+      image: image
+    }
 
-  //   fetch(`http://localhost:9292/patterns`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(newPattern)
-  //   })
-  //     .then(r => r.json())
-  //     .then(data => console.log(data))
-  // }
+    fetch(`http://localhost:9292/patterns`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(r => r.json())
+      .then(data => console.log(data))
+
+  }
 
   // const getFiles = (file) => {
   //   setFile(file)
@@ -88,14 +118,15 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
       const [image, setImage] = useState( */}
 
       {/* <Divider horizontal>Or</Divider> */}
-      {/* <Form onSubmit={handleSubmit}> */}
-      <Form>
+      <Form onSubmit={handleSubmit}>
+        {/* <Form> */}
         <Form.Group widths='equal'>
           <Form.Input fluid
             label='Pattern Code'
             name='patternCode'
             placeholder='M8281'
             value={patternCode}
+            onChange={handleChange}
           />
           <Form.Dropdown
             name='patternCompanies'
@@ -106,6 +137,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
             selection
             options={companies()}
             value={patternCompany}
+            onChange={handleChange}
           />
         </Form.Group>
         <Form.Group widths='equal'>
@@ -114,6 +146,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
             name='notions'
             placeholder='7in. (18 cm) Zipper, Hook and Eye'
             value={notions}
+            onChange={handleChange}
           />
           <Form.Input fluid
             label='Size'
@@ -121,6 +154,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
             width={6}
             placeholder='6 or XXL'
             value={size}
+            onChange={handleChange}
           />
           <Form.Input fluid
             label='Yardage'
@@ -128,12 +162,14 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
             width={3}
             placeholder='2'
             value={yardage}
+            onChange={handleChange}
           />
           <Form.TextArea fluid
             label='Extras'
             name='extras'
             placeholder='Description and notes etc.'
             value={extras}
+            onChange={handleChange}
           />
         </Form.Group>
         <Form.Input type="file" fluid label='Pattern Image' name='image' />
@@ -147,11 +183,12 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
           name='fabrics'
           placeholder='i.e. Cotton Blends, Gingham, Sateen, Poplin'
           value={fabricList}
+          onChange={handleChange}
         />
         <Form.Dropdown search selection multiple allowAdditions fluid
           options={categories()}
           label='Categories'
-          name='Categories'
+          name='categories'
           onChange={handleChange}
           placeholder='Choose one or more categories'
           value={categoryList}
