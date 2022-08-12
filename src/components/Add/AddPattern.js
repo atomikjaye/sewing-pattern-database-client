@@ -2,62 +2,13 @@ import React, { useState } from 'react'
 import FileBase64 from 'react-file-base64'
 import { Form, Divider, Header, Input, TextArea, Button } from 'semantic-ui-react'
 
-const patternCompanies = [
-  { key: 'mccalls', value: 1, text: 'McCall\'s' },
-  { key: 'simplicity', value: 2, text: 'Simplicity' },
-  { key: 'vogue', value: 3, text: 'Vogue' },
-  { key: 'butterick', value: 4, text: 'Butterick' }
-]
-
-const fabricTypes = [
-  { key: 'baize', value: 'baize', text: 'baize' },
-  { key: 'charmeuse', value: 'charmeuse', text: 'charmeuse' },
-  { key: 'chenille', value: 'chenille', text: 'chenille' },
-  { key: 'cheviot', value: 'cheviot', text: 'cheviot' },
-  { key: 'chiffon', value: 'chiffon', text: 'chiffon' },
-  { key: 'cotton', value: 'cotton', text: 'cotton' },
-  { key: 'cottonBlends', value: 'cottonBlends', text: 'cottonBlends' },
-  { key: 'denim', value: 'denim', text: 'denim' },
-  { key: 'dimity', value: 'dimity', text: 'dimity' },
-  { key: 'felt', value: 'felt', text: 'felt' },
-  { key: 'georgette', value: 'georgette', text: 'georgette' },
-  { key: 'jacuard', value: 'jacuard', text: 'jacuard' },
-  { key: 'jersey', value: 'jersey', text: 'jersey' },
-  { key: 'jute', value: 'jute', text: 'jute' },
-  { key: 'lace', value: 'lace', text: 'lace' },
-  { key: 'linen', value: 'linen', text: 'linen' },
-  { key: 'lycra', value: 'lycra', text: 'lycra' },
-  { key: 'poplin', value: 'poplin', text: 'poplin' },
-  { key: 'rayon', value: 'rayon', text: 'rayon' },
-  { key: 'sateen', value: 'sateen', text: 'sateen' },
-  { key: 'satin', value: 'satin', text: 'satin' },
-  { key: 'silk', value: 'silk', text: 'silk' },
-  { key: 'twill', value: 'twill', text: 'twill' },
-  { key: 'velvet', value: 'velvet', text: 'velvet' },
-  { key: 'wool', value: 'wool', text: 'wool' }
-]
-
 function handleChange(e, data) {
   console.log(e)
   console.log(data)
 }
 
-// const categories = [
-//   { key: 'dresses', value: 1, text: 'Pants' },
-//   { key: 'tops_vests', value: 2, text: 'Skirts' },
-//   { key: 'skirts_pants_jumpsuits', value: 3, text: 'Skirts, Pants, & Jumpsuits' },
-//   { key: 'active_swim', value: 4, text: 'Activewear & Swimsuits' },
-//   { key: 'sports_coord', value: 5, text: 'Sportswear & Coordinates' },
-//   { key: 'jackets_coats', value: 6, text: 'Jackets & Coats' },
-//   { key: 'special', value: 7, text: 'Special Occasion' },
-//   { key: 'lingerie', value: 8, text: 'Lingerie' },
-//   { key: 'women', value: 9, text: 'Women' },
-//   { key: 'men', value: 10, text: 'Men' },
-//   { key: 'kids', value: 11, text: 'Kids' },
-//   { key: 'toys', value: 12, text: 'Toys' }
-// ]
 
-const Upload = ({ categoriesObject }) => {
+const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
   const [patternCode, setpatternCode] = useState('')
   const [patternCompany, setpatternCompany] = useState(0)
   const [notions, setNotions] = useState([])
@@ -75,6 +26,22 @@ const Upload = ({ categoriesObject }) => {
       categoryArr.push({ key: categoriesObject[key].id, value: categoriesObject[key].id, text: categoriesObject[key].name })
     })
     return categoryArr
+  }
+
+  function fabrics() {
+    let fabricArr = []
+    Object.keys(fabricsObj).forEach(key => {
+      fabricArr.push({ key: fabricsObj[key].id, value: fabricsObj[key].id, text: fabricsObj[key].name })
+    })
+    return fabricArr
+  }
+
+  function companies() {
+    let companyArr = []
+    Object.keys(companiesObj).forEach(key => {
+      companyArr.push({ key: companiesObj[key].id, value: companiesObj[key].id, text: companiesObj[key].name })
+    })
+    return companyArr
   }
 
   const newPattern = {
@@ -137,7 +104,7 @@ const Upload = ({ categoriesObject }) => {
             fluid
             search
             selection
-            options={patternCompanies}
+            options={companies()}
             value={patternCompany}
           />
         </Form.Group>
@@ -175,7 +142,7 @@ const Upload = ({ categoriesObject }) => {
           onDone={this.getFiles.bind(this)} /> */}
 
         <Form.Dropdown search selection multiple allowAdditions fluid
-          options={fabricTypes}
+          options={fabrics()}
           label='Fabrics'
           name='fabrics'
           placeholder='i.e. Cotton Blends, Gingham, Sateen, Poplin'
