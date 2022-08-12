@@ -4,6 +4,9 @@ import PatternDisplay from './../Patterns/PatternsDisplay'
 
 const Home = () => {
 
+
+
+
   return (
     <>
       <Header>
