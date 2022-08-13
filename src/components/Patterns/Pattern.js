@@ -1,10 +1,12 @@
-import React from 'react'
-import { Card, Header, Divider, Image } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Card, Header, Divider, Image, Dimmer, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 
 
 
 const Pattern = ({ id, companyName, image, patternCode, handleDelete }) => {
+
+  const [showHide, setShowHide] = useState(false)
 
   // key={pattern.id}
   // id={pattern.id}
@@ -16,27 +18,58 @@ const Pattern = ({ id, companyName, image, patternCode, handleDelete }) => {
   // size={pattern.size}
   // yardage={pattern.yardage}
 
+  // Handling Dimmer tings
+  const handleShowHide = () => {
+    console.log("hi", showHide)
+    showHide === false ? setShowHide(true) : setShowHide(false)
+  }
+
   function handleDeleteClick() {
-    console.log("IDDDDDDDD", id)
+    // console.log("IDDDDDDDD", id)
     fetch(`http://localhost:9292/patterns/${id}`, {
       method: "DELETE",
     });
 
     handleDelete(id);
   }
+  const UpdateDeleteButtons = (
+    <div>
+      <Button.Group>
+        <Button negative onClick={handleDeleteClick}>Delete</Button>
+        <Button.Or />
+        <Button positive>Update</Button>
+      </Button.Group>
+    </div>
+  )
 
   return (
-    <Card key={id}>
-      <Image src={image} />
-      <Card.Content>
-        <Card.Header>{patternCode}</Card.Header>
-        <Card.Description>
-          {/* <strong>Code:</strong> M8717<br /> */}
-          <strong>Company:</strong> {companyName}<br />
-          <a onClick={handleDeleteClick}>Delete</a>
-        </Card.Description>
-      </Card.Content>
-    </Card>
+    <>
+      <Card key={id}>
+        <Dimmer.Dimmable
+          // as={Card}
+          key={id}
+          // dimmed={showHide}
+          // dimmer={{ showHide }}
+          onMouseEnter={handleShowHide}
+          onMouseLeave={handleShowHide}
+        >
+          <Dimmer
+            active={showHide}
+          >
+            {UpdateDeleteButtons}
+          </Dimmer>
+          <Image src={image} fluid />
+        </Dimmer.Dimmable>
+        <Card.Content>
+          <Card.Header>{patternCode}</Card.Header>
+          <Card.Description>
+            {/* <strong>Code:</strong> M8717<br /> */}
+            <strong>Company:</strong> {companyName}<br />
+            <a onClick={handleDeleteClick}>Delete</a>
+          </Card.Description>
+        </Card.Content>
+      </Card>
+    </>
   )
 
 }

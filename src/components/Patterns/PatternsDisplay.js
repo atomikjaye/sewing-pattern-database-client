@@ -17,6 +17,7 @@ const PatternDisplay = ({ patternsObj, categoriesObject, fabricsObj, companiesOb
 
   const patternsToDisplay = patternsObj.map((pattern) => {
     console.debug("pattern id", pattern.id)
+    console.debug("pattern id STUFF", pattern.company_id - 1)
     // TODO: I forgot the easier way to do this D:
     // console.error("TEST", pattern.company_id)
     // console.error("TEST2", companiesObj[pattern.company_id - 1].name)
