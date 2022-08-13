@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import './components/Add/AddPattern'
 import { Button, Container } from 'semantic-ui-react'
 import AddPattern from './components/Add/AddPattern';
-import Home from './components/Home/Home';
+import PatternsList from './components/Patterns/PatternsList';
 import NavBar from './components/PageComponents/NavBar';
 import Footer from './components/PageComponents/Footer';
 
@@ -74,7 +74,7 @@ function App() {
       <Container text style={{ marginTop: '7em' }}>
         <Routes>
           <Route path="/" element={
-            <Home
+            <PatternsList
               patternsObj={patterns}
               categoriesObject={categories}
               fabricsObj={fabrics}

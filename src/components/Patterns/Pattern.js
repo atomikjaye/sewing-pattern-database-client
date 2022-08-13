@@ -20,12 +20,13 @@ const Pattern = ({ id, companyName, image, patternCode, handleDelete }) => {
 
   // Handling Dimmer tings
   const handleShowHide = () => {
-    console.log("hi", showHide)
+    // console.log("hi", showHide)
     showHide === false ? setShowHide(true) : setShowHide(false)
   }
 
   function handleDeleteClick() {
     // console.log("IDDDDDDDD", id)
+    setShowHide(false)
     fetch(`http://localhost:9292/patterns/${id}`, {
       method: "DELETE",
     });
@@ -65,7 +66,6 @@ const Pattern = ({ id, companyName, image, patternCode, handleDelete }) => {
           <Card.Description>
             {/* <strong>Code:</strong> M8717<br /> */}
             <strong>Company:</strong> {companyName}<br />
-            <a onClick={handleDeleteClick}>Delete</a>
           </Card.Description>
         </Card.Content>
       </Card>
