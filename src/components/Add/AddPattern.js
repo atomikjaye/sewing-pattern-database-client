@@ -4,7 +4,7 @@ import { Form, Divider, Header, Input, TextArea, Button } from 'semantic-ui-reac
 
 
 
-const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
+const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns }) => {
   const [patternCode, setPatternCode] = useState('')
   const [patternCompany, setPatternCompany] = useState(0)
   const [notions, setNotions] = useState('')
@@ -100,6 +100,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
   function fabrics() {
     let fabricArr = []
     Object.keys(fabricsObj).forEach(key => {
+
       fabricArr.push({ key: fabricsObj[key].id, value: fabricsObj[key].id, text: fabricsObj[key].name })
     })
     return fabricArr
@@ -147,13 +148,13 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
       body: JSON.stringify(formData)
     })
       .then(r => r.json())
-      .then(data => {
+      .then(pattern => {
         // Create fabric Pattern association
         for (let fabric of fabricList) {
           console.log(fabric)
           const fabricData = {
             fabric_id: fabric,
-            pattern_id: data.id
+            pattern_id: pattern.id
           }
           fetch(`http://localhost:9292/patterns_fabrics`, {
             method: 'POST',
@@ -168,23 +169,26 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
         for (let category of categoryList) {
           const categoryData = {
             category_id: category,
-            pattern_id: data.id
+            pattern_id: pattern.id
           }
-          fetch(`http://localhost:9292//patterns_categories`, {
+          fetch(`http://localhost:9292/patterns_categories`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(categoryData)
           }).then(r => r.json())
-            .then(category => console.log(category))
+            .then(category => {
+              console.log(category)
+              handleNewPatterns(pattern)
+            })
         }
 
         // fetch(``)
 
 
 
-        console.log(data)
+        console.log(pattern)
       })
 
   }

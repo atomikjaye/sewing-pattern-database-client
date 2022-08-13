@@ -2,8 +2,9 @@ import React from 'react'
 import { Header } from 'semantic-ui-react'
 import PatternDisplay from './../Patterns/PatternsDisplay'
 
-const Home = () => {
+const Home = ({ patternsObj, categoriesObject, fabricsObj, companiesObj, handleDelete }) => {
 
+  console.log("From HOME", patternsObj)
 
 
 
@@ -12,7 +13,12 @@ const Home = () => {
       <Header>
         My Patterns
       </Header>
-      <PatternDisplay />
+      <PatternDisplay
+        patternsObj={patternsObj}
+        categoriesObject={categoriesObject}
+        fabricsObj={fabricsObj}
+        companiesObj={companiesObj}
+        handleDelete={handleDelete} />
     </>
   )
 

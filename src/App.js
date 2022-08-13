@@ -17,10 +17,11 @@ function App() {
   const [categories, setCategories] = useState({})
   const [fabrics, setFabrics] = useState({})
   const [companies, setCompanies] = useState({})
+  const [patterns, setPatterns] = useState([])
 
 
   useEffect(() => {
-    // fetch catgories
+    // fetch catgories GET
     fetch(serverURL + '/categories')
       .then(res => res.json())
       .then(categoriesObjects => {
@@ -41,8 +42,29 @@ function App() {
         setCompanies(companiesObj)
         // console.log("cate obg", categoriesObjects)
       })
+
+    fetch(serverURL + '/patterns')
+      .then(res => res.json())
+      .then(patternsObj => {
+        setPatterns(patternsObj)
+        console.log("patterns obj from APP.js", patternsObj)
+        patternsObj.map((pattern) => {
+          console.log(pattern)
+        })
+      })
+
   }, [])
   // console.log(categories)
+
+  const handleDelete = (id) => {
+    const updatedPatterns = patterns.filter((pattern) => pattern.id != id);
+    setPatterns(updatedPatterns)
+
+  }
+
+  const handleNewPatterns = (newPattern) => {
+    setPatterns([...patterns, newPattern])
+  }
 
   const ButtonExampleButton = () => <Button>Click Here</Button>
   return (
@@ -51,8 +73,25 @@ function App() {
       <NavBar />
       <Container text style={{ marginTop: '7em' }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<AddPattern categoriesObject={categories} fabricsObj={fabrics} companiesObj={companies} />} />
+          <Route path="/" element={
+            <Home
+              patternsObj={patterns}
+              categoriesObject={categories}
+              fabricsObj={fabrics}
+              companiesObj={companies}
+              handleDelete={handleDelete}
+
+            />
+          } />
+
+          <Route path="/upload" element={
+            <AddPattern
+              categoriesObject={categories}
+              fabricsObj={fabrics}
+              companiesObj={companies}
+              handleNewPatterns={handleNewPatterns}
+            />
+          } />
         </Routes>
       </Container>
       <Footer />
