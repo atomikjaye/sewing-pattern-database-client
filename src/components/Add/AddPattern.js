@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FileBase64 from 'react-file-base64'
 import { Form, Divider, Header, Input, TextArea, Button } from 'semantic-ui-react'
 
@@ -11,10 +11,48 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
   const [size, setSize] = useState('')
   const [yardage, setYardage] = useState(0)
   const [extras, setExtras] = useState('')
-  const [image, setImage] = useState('https://via.placeholder.com/150x200?text=Sewing+Pattern')
+  // FOR FILES/IMAGES
+  const [image, setImage] = useState(null)
+  const [fileDataURL, setFileDataURL] = useState(null);
+
   const [fabricList, setFabricList] = useState([])
   const [categoryList, setCategoryList] = useState([])
 
+
+
+  /// ADDING USEEFFECT to display image uploaded
+
+  useEffect(() => {
+    let fileReader, isCancel = false;
+    if (image) {
+      fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = e.target;
+        if (result && !isCancel) {
+          setFileDataURL(result)
+        }
+      }
+      fileReader.readAsDataURL(image);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    }
+
+  }, [image]);
+
+
+
+
+
+  // DONE USEEFFECT
+
+
+
+  // IMAGE VALIDATION
+  const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
   function handleChange(e, data) {
     if (data.name === 'patternCode') {
@@ -30,7 +68,19 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
     } else if (data.name === 'extras') {
       setExtras(data.value)
     } else if (data.name === 'image') {
-      setImage(data.value)
+      // Getting file from target event
+      const file = e.target.files[0]
+      // image validation
+      if (!file.type.match(imageMimeType)) {
+        alert("Image mime type is not valid");
+        return;
+      }
+      // Set file if image validationis correct
+      setImage(file);
+
+      console.log('FILES', e, data, "FILES", file)
+      // setImage(data.value)
+
     } else if (data.name === 'fabrics') {
       setFabricList(data.value)
     } else if (data.name === 'categories') {
@@ -97,7 +147,45 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
       body: JSON.stringify(formData)
     })
       .then(r => r.json())
-      .then(data => console.log(data))
+      .then(data => {
+        // Create fabric Pattern association
+        for (let fabric of fabricList) {
+          console.log(fabric)
+          const fabricData = {
+            fabric_id: fabric,
+            pattern_id: data.id
+          }
+          fetch(`http://localhost:9292/patterns_fabrics`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(fabricData)
+          }).then(r => r.json())
+            .then(fabric => console.log(fabric))
+        }
+        // Create Pattern Category Association
+        for (let category of categoryList) {
+          const categoryData = {
+            category_id: category,
+            pattern_id: data.id
+          }
+          fetch(`http://localhost:9292//patterns_categories`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(categoryData)
+          }).then(r => r.json())
+            .then(category => console.log(category))
+        }
+
+        // fetch(``)
+
+
+
+        console.log(data)
+      })
 
   }
 
@@ -172,7 +260,24 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj }) => {
             onChange={handleChange}
           />
         </Form.Group>
-        <Form.Input type="file" fluid label='Pattern Image' name='image' />
+        {/* FILE */}
+        <Form.Input
+          type="file" fluid
+          label='Pattern Image'
+          name='image'
+          accept="image/*"
+          // value={image}
+          onChange={handleChange}
+        />
+
+        {/* // DISPLAY IMAGE */}
+        {fileDataURL ?
+          <p className="img-preview-wrapper">
+            {
+              <img src={fileDataURL} alt="preview" />
+            }
+          </p> : null}
+
         {/* <FileBase64
           multiple={true}
           onDone={this.getFiles.bind(this)} /> */}
