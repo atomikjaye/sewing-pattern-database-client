@@ -62,7 +62,7 @@ const Pattern = ({ id, companyName, image, patternCode, handleDelete }) => {
           <Image src={image} fluid />
         </Dimmer.Dimmable>
         <Card.Content>
-          <Card.Header>{patternCode}</Card.Header>
+          <Card.Header as={Link} to={`/patterns/${id}`}>{patternCode}</Card.Header>
           <Card.Description>
             {/* <strong>Code:</strong> M8717<br /> */}
             <strong>Company:</strong> {companyName}<br />

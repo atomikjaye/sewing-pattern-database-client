@@ -6,6 +6,7 @@ import './components/Add/AddPattern'
 import { Button, Container } from 'semantic-ui-react'
 import AddPattern from './components/Add/AddPattern';
 import PatternsList from './components/Patterns/PatternsList';
+import PatternPage from './components/Patterns/PatternPage';
 import NavBar from './components/PageComponents/NavBar';
 import Footer from './components/PageComponents/Footer';
 
@@ -47,10 +48,10 @@ function App() {
       .then(res => res.json())
       .then(patternsObj => {
         setPatterns(patternsObj)
-        console.log("patterns obj from APP.js", patternsObj)
-        patternsObj.map((pattern) => {
-          console.log(pattern)
-        })
+        // console.log("patterns obj from APP.js", patternsObj)
+        // patternsObj.map((pattern) => {
+        //   // console.log(pattern)
+        // })
       })
 
   }, [])
@@ -92,6 +93,16 @@ function App() {
               handleNewPatterns={handleNewPatterns}
             />
           } />
+          <Route path={`/patterns/:patternId`} element={
+            <PatternPage
+              patternsObj={patterns}
+              categoriesObject={categories}
+              fabricsObj={fabrics}
+              companiesObj={companies}
+            />
+          }
+          />
+
         </Routes>
       </Container>
       <Footer />
