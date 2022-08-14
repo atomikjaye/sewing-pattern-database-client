@@ -19,18 +19,21 @@ function App() {
   const [fabrics, setFabrics] = useState({})
   const [companies, setCompanies] = useState({})
   const [patterns, setPatterns] = useState([])
+  const [updated, setUpdated] = useState("")
 
+
+  console.log("App rendering")
 
   useEffect(() => {
     // fetch catgories GET
 
 
-    async function getPatternFetch() {
-      let patternsFetch = await fetch(serverURL + '/patterns')
-      patternsFetch = await patternsFetch.json()
-      setPatterns(patternsFetch)
-      console.log("Patterns", patterns)
-    }
+    // async function getPatternFetch() {
+    //   let patternsFetch = await fetch(serverURL + '/patterns')
+    //   patternsFetch = await patternsFetch.json()
+    //   setPatterns(patternsFetch)
+    //   console.log("Patterns", patterns)
+    // }
 
     // console.log(patterns)
     // async function getCategoriesFetch() {
@@ -60,13 +63,13 @@ function App() {
       patternsFetch = await patternsFetch.json()
       setPatterns(patternsFetch)
 
-      //   let categoriesFetch = await fetch(serverURL + '/categories')
-      //   categoriesFetch = await categoriesFetch.json()
-      //   setCategories(categoriesFetch)
+      let categoriesFetch = await fetch(serverURL + '/categories')
+      categoriesFetch = await categoriesFetch.json()
+      setCategories(categoriesFetch)
 
-      //   let fabricsFetch = await fetch(serverURL + '/fabrics')
-      //   fabricsFetch = await fabricsFetch.json()
-      //   setFabrics(fabricsFetch)
+      let fabricsFetch = await fetch(serverURL + '/fabrics')
+      fabricsFetch = await fabricsFetch.json()
+      setFabrics(fabricsFetch)
 
       let companiesFetch = await fetch(serverURL + '/companies')
       companiesFetch = await companiesFetch.json()
@@ -113,7 +116,7 @@ function App() {
     //     console.log("patterns from state from APP.js", patterns)
     //   })
 
-  }, [])
+  }, [updated])
 
   console.log("Patterns", patterns)
   // console.log(categories)
@@ -121,11 +124,25 @@ function App() {
   const handleDelete = (id) => {
     const updatedPatterns = patterns.filter((pattern) => pattern.id != id);
     setPatterns(updatedPatterns)
+    setUpdated("d")
+
 
   }
 
+  console.log("COMPANIES", companies)
+
   const handleNewPatterns = (newPattern) => {
     setPatterns([...patterns, newPattern])
+    setUpdated("w")
+    // let companiesNew = [...companies]
+    // companiesNew.map((company) => {
+    //   if (company.id === newPattern.company_id) {
+    //     console.log("COMPANY PATTERNS IN HANDLENEWPATTERNS", company.patterns)
+    //     company.patterns.push(newPattern)
+    //     // return company
+    //   }
+    // })
+    // setCompanies(companiesNew)
   }
 
   const ButtonExampleButton = () => <Button>Click Here</Button>

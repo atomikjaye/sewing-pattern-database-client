@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import FileBase64 from 'react-file-base64'
 import { Form, Divider, Header, Input, TextArea, Button } from 'semantic-ui-react'
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -17,6 +18,8 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
 
   const [fabricList, setFabricList] = useState([])
   const [categoryList, setCategoryList] = useState([])
+
+  const navigate = useNavigate();
 
 
 
@@ -181,15 +184,17 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
           }).then(r => r.json())
             .then(category => {
               console.log(category)
+              console.log("Handling Pattern Addition", pattern)
               handleNewPatterns(pattern)
             })
         }
 
+        navigate("/")
 
-
-
-        console.log(pattern)
+        // console.log("FROM ADDPATTEN", pattern)
       })
+
+
 
   }
 
