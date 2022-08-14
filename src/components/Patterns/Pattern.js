@@ -45,6 +45,7 @@ const Pattern = ({ id, companyName, image, patternCode, handleDelete }) => {
 
   return (
     <>
+
       <Card key={id}>
         <Dimmer.Dimmable
           // as={Card}

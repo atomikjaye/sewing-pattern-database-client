@@ -25,12 +25,12 @@ function App() {
     // fetch catgories GET
 
 
-    // async function getPatternFetch() {
-    //   let patternsFetch = await fetch(serverURL + '/patterns')
-    //   patternsFetch = await patternsFetch.json()
-    //   setPatterns(patternsFetch)
-    //   console.log(patterns)
-    // }
+    async function getPatternFetch() {
+      let patternsFetch = await fetch(serverURL + '/patterns')
+      patternsFetch = await patternsFetch.json()
+      setPatterns(patternsFetch)
+      console.log("Patterns", patterns)
+    }
 
     // console.log(patterns)
     // async function getCategoriesFetch() {
@@ -60,13 +60,13 @@ function App() {
       patternsFetch = await patternsFetch.json()
       setPatterns(patternsFetch)
 
-      let categoriesFetch = await fetch(serverURL + '/categories')
-      categoriesFetch = await categoriesFetch.json()
-      setCategories(categoriesFetch)
+      //   let categoriesFetch = await fetch(serverURL + '/categories')
+      //   categoriesFetch = await categoriesFetch.json()
+      //   setCategories(categoriesFetch)
 
-      let fabricsFetch = await fetch(serverURL + '/fabrics')
-      fabricsFetch = await fabricsFetch.json()
-      setFabrics(fabricsFetch)
+      //   let fabricsFetch = await fetch(serverURL + '/fabrics')
+      //   fabricsFetch = await fabricsFetch.json()
+      //   setFabrics(fabricsFetch)
 
       let companiesFetch = await fetch(serverURL + '/companies')
       companiesFetch = await companiesFetch.json()
@@ -102,11 +102,11 @@ function App() {
     //     // console.log("cate obg", categoriesObjects)
     //   })
 
-    // fetch(serverURL + '/patterns')
+    // fetch(serverURL + '/companies')
     //   .then(res => res.json())
-    //   .then(patternsObj => {
-    //     setPatterns(patternsObj)
-    //     console.log("patterns obj from APP.js", patternsObj)
+    //   .then(companiesObj => {
+    //     setCompanies(companiesObj)
+    //     console.log("patterns obj from APP.js", companiesObj)
     //     // patternsObj.map((pattern) => {
     //     //   // console.log(pattern)
     //     // })
@@ -114,6 +114,8 @@ function App() {
     //   })
 
   }, [])
+
+  console.log("Patterns", patterns)
   // console.log(categories)
 
   const handleDelete = (id) => {
@@ -135,6 +137,7 @@ function App() {
         <Routes>
           <Route path="/" element={
             <PatternsList
+              // companiesObj={patterns}
               patternsObj={patterns}
               categoriesObject={categories}
               fabricsObj={fabrics}

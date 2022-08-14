@@ -140,6 +140,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
       image: image
     }
 
+    //TODO: use Async
     fetch(`http://localhost:9292/patterns`, {
       method: 'POST',
       headers: {
@@ -184,7 +185,6 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             })
         }
 
-        // fetch(``)
 
 
 
