@@ -23,36 +23,95 @@ function App() {
 
   useEffect(() => {
     // fetch catgories GET
-    fetch(serverURL + '/categories')
-      .then(res => res.json())
-      .then(categoriesObjects => {
-        setCategories(categoriesObjects)
-        // console.log("cate obg", categoriesObjects)
-      })
 
-    fetch(serverURL + '/fabrics')
-      .then(res => res.json())
-      .then(fabricsObj => {
-        setFabrics(fabricsObj)
-        // console.log("cate obg", categoriesObjects)
-      })
 
-    fetch(serverURL + '/companies')
-      .then(res => res.json())
-      .then(companiesObj => {
-        setCompanies(companiesObj)
-        // console.log("cate obg", categoriesObjects)
-      })
+    // async function getPatternFetch() {
+    //   let patternsFetch = await fetch(serverURL + '/patterns')
+    //   patternsFetch = await patternsFetch.json()
+    //   setPatterns(patternsFetch)
+    //   console.log(patterns)
+    // }
 
-    fetch(serverURL + '/patterns')
-      .then(res => res.json())
-      .then(patternsObj => {
-        setPatterns(patternsObj)
-        // console.log("patterns obj from APP.js", patternsObj)
-        // patternsObj.map((pattern) => {
-        //   // console.log(pattern)
-        // })
-      })
+    // console.log(patterns)
+    // async function getCategoriesFetch() {
+    //   let categoriesFetch = await fetch(serverURL + '/categories')
+    //   categoriesFetch = await categoriesFetch.json()
+    //   setCategories(categoriesFetch)
+    // }
+
+    // async function getFabricsFetch() {
+    //   let fabricsFetch = await fetch(serverURL + '/fabrics')
+    //   fabricsFetch = await fabricsFetch.json()
+    //   setFabrics(fabricsFetch)
+    // }
+
+    // async function getCompaniesFetch() {
+    //   let companiesFetch = await fetch(serverURL + '/companies')
+    //   companiesFetch = await companiesFetch.json()
+    //   setCompanies(companiesFetch)
+    // }
+
+
+
+
+
+    async function getInfoFetch() {
+      let patternsFetch = await fetch(serverURL + '/patterns')
+      patternsFetch = await patternsFetch.json()
+      setPatterns(patternsFetch)
+
+      let categoriesFetch = await fetch(serverURL + '/categories')
+      categoriesFetch = await categoriesFetch.json()
+      setCategories(categoriesFetch)
+
+      let fabricsFetch = await fetch(serverURL + '/fabrics')
+      fabricsFetch = await fabricsFetch.json()
+      setFabrics(fabricsFetch)
+
+      let companiesFetch = await fetch(serverURL + '/companies')
+      companiesFetch = await companiesFetch.json()
+      setCompanies(companiesFetch)
+
+    }
+
+    getInfoFetch()
+
+    // getPatternFetch()
+    // getCategoriesFetch()
+    // getFabricsFetch()
+    // getCompaniesFetch()
+
+    // fetch(serverURL + '/categories')
+    //   .then(res => res.json())
+    //   .then(categoriesObjects => {
+    //     setCategories(categoriesObjects)
+    //     // console.log("cate obg", categoriesObjects)
+    //   })
+
+    // fetch(serverURL + '/fabrics')
+    //   .then(res => res.json())
+    //   .then(fabricsObj => {
+    //     setFabrics(fabricsObj)
+    //     // console.log("cate obg", categoriesObjects)
+    //   })
+
+    // fetch(serverURL + '/companies')
+    //   .then(res => res.json())
+    //   .then(companiesObj => {
+    //     setCompanies(companiesObj)
+    //     // console.log("cate obg", categoriesObjects)
+    //   })
+
+    // fetch(serverURL + '/patterns')
+    //   .then(res => res.json())
+    //   .then(patternsObj => {
+    //     setPatterns(patternsObj)
+    //     console.log("patterns obj from APP.js", patternsObj)
+    //     // patternsObj.map((pattern) => {
+    //     //   // console.log(pattern)
+    //     // })
+    //     console.log("patterns from state from APP.js", patterns)
+    //   })
 
   }, [])
   // console.log(categories)
@@ -93,7 +152,7 @@ function App() {
               handleNewPatterns={handleNewPatterns}
             />
           } />
-          <Route path={`/patterns/:patternId`} element={
+          <Route path={'/patterns/:patternId'} element={
             <PatternPage
               patternsObj={patterns}
               categoriesObject={categories}

@@ -19,7 +19,7 @@ const PatternsList = ({ patternsObj, categoriesObject, fabricsObj, companiesObj,
     // console.error("TEST2", companiesObj[pattern.company_id - 1].name)
     return <Pattern
       id={pattern.id}
-      companyName={companiesObj[pattern.company_id - 1].name}
+      // companyName={companiesObj[pattern.company_id - 1].name}
       extras={pattern.extras}
       image={pattern.image}
       notions={pattern.notions}

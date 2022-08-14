@@ -36,7 +36,7 @@ const Pattern = ({ id, companyName, image, patternCode, handleDelete }) => {
   const UpdateDeleteButtons = (
     <div>
       <Button.Group>
-        <Button negative onClick={handleDeleteClick}>Delete</Button>
+        <Button negative onClick={() => handleDeleteClick()}>Delete</Button>
         <Button.Or />
         <Button positive>Update</Button>
       </Button.Group>
