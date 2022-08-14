@@ -4,6 +4,13 @@ import { Form, Divider, Header, Input, TextArea, Button } from 'semantic-ui-reac
 import { useNavigate } from "react-router-dom"
 
 
+// IMAGE STUFF
+import { IKImage, IKContext, IKUpload } from 'imagekitio-react';
+const urlEndpoint = 'https://ik.imagekit.io/1y1qnkhut/';
+const publicKey = 'public_u7MEh5uCyhza5HasBZZAwlZWgPo=';
+const authenticationEndpoint = 'http://localhost:3001/auth';
+
+
 
 const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns }) => {
   const [patternCode, setPatternCode] = useState('')
@@ -58,19 +65,19 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
   const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
   function handleChange(e, data) {
-    if (data.name === 'patternCode') {
-      setPatternCode(data.value)
-    } else if (data.name === 'patternCompanies') {
-      setPatternCompany(data.value)
-    } else if (data.name === 'notions') {
-      setNotions(data.value)
-    } else if (data.name === 'size') {
-      setSize(data.value)
-    } else if (data.name === 'yardage') {
-      setYardage(data.value)
-    } else if (data.name === 'extras') {
-      setExtras(data.value)
-    } else if (data.name === 'image') {
+    console.log(e, data)
+
+    if (e.target.name === 'patternCode') {
+      setPatternCode(e.target.value)
+    } else if (e.target.name === 'notions') {
+      setNotions(e.target.value)
+    } else if (e.target.name === 'size') {
+      setSize(e.target.value)
+    } else if (e.target.name === 'yardage') {
+      setYardage(e.target.value)
+    } else if (e.target.name === 'extras') {
+      setExtras(e.target.value)
+    } else if (e.target.name === 'image') {
       // Getting file from target event
       const file = e.target.files[0]
       // image validation
@@ -82,12 +89,17 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
       setImage(file);
 
       console.log('FILES', e, data, "FILES", file)
-      // setImage(data.value)
+      // setImage(e.target.value)
 
     } else if (data.name === 'fabrics') {
       setFabricList(data.value)
+    } else if (data.name === 'patternCompanies') {
+      setPatternCompany(data.value)
     } else if (data.name === 'categories') {
+      console.log("CATEGORIES", data.value)
       setCategoryList(data.value)
+    } else {
+      console.log("YOU BROKE ME")
     }
   }
 
@@ -117,17 +129,17 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
     return companyArr
   }
 
-  const newPattern = {
-    company_id: 2,
-    category_id: 4,
-    pattern_code: "S8578",
-    notions: ["1/2\" elastic (1.5yd)",],
-    size: "1X - 5X",
-    yardage: 0,
-    fabrics: ["active wear knits", "spandex blends", "two way stretch"],
-    extras: "These knit leggings are available in both Misses' sizes XS to XL and Plus sizes 1X to 5X. Special features include contrasting twisted tabs at ankle, stirrup detail, convenient side pockets, and super-flattering rear curved seam.",
-    image: "/images/S8561_envelope_front__14083.jpg"
-  }
+  // const newPattern = {
+  //   company_id: 2,
+  //   category_id: 4,
+  //   pattern_code: "S8578",
+  //   notions: ["1/2\" elastic (1.5yd)",],
+  //   size: "1X - 5X",
+  //   yardage: 0,
+  //   fabrics: ["active wear knits", "spandex blends", "two way stretch"],
+  //   extras: "These knit leggings are available in both Misses' sizes XS to XL and Plus sizes 1X to 5X. Special features include contrasting twisted tabs at ankle, stirrup detail, convenient side pockets, and super-flattering rear curved seam.",
+  //   image: "/images/S8561_envelope_front__14083.jpg"
+  // }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -269,15 +281,18 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             onChange={handleChange}
           />
         </Form.Group>
-        {/* FILE */}
-        <Form.Input
-          type="file" fluid
-          label='Pattern Image'
-          name='image'
-          accept="image/*"
-          // value={image}
-          onChange={handleChange}
-        />
+        <IKContext publicKey={publicKey} urlEndpoint={urlEndpoint} authenticationEndpoint={authenticationEndpoint}>
+          {/* FILE */}
+          <Form.Input
+            as={IKUpload}
+            type="file" fluid
+            label='Pattern Image'
+            name='image'
+            accept="image/*"
+            // value={image}
+            onChange={handleChange}
+          />
+        </IKContext>
 
         {/* // DISPLAY IMAGE */}
         {fileDataURL ?
