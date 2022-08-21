@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 // import logo from './logo.svg';
 // import './App.css';
 import './components/Add/AddPattern'
-import { Button, Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import AddPattern from './components/Add/AddPattern';
 import PatternsList from './components/Patterns/PatternsList';
 import PatternPage from './components/Patterns/PatternPage';
@@ -19,12 +19,13 @@ function App() {
   const [fabrics, setFabrics] = useState({})
   const [companies, setCompanies] = useState({})
   const [patterns, setPatterns] = useState([])
-  const [updated, setUpdated] = useState("")
+  const [updated, setUpdated] = useState(0)
 
 
   console.log("App rendering")
 
   useEffect(() => {
+    console.log("USE EFFECT")
     // fetch catgories GET
 
 
@@ -122,11 +123,9 @@ function App() {
   // console.log(categories)
 
   const handleDelete = (id) => {
-    const updatedPatterns = patterns.filter((pattern) => pattern.id != id);
+    const updatedPatterns = patterns.filter((pattern) => pattern.id !== id);
     setPatterns(updatedPatterns)
     setUpdated("d")
-
-
   }
 
   console.log("COMPANIES", companies)
@@ -145,7 +144,8 @@ function App() {
     // setCompanies(companiesNew)
   }
 
-  const ButtonExampleButton = () => <Button>Click Here</Button>
+
+
   return (
     <>
 

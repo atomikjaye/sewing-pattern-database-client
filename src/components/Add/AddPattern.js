@@ -161,7 +161,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             fabric_id: fabric,
             pattern_id: pattern.id
           }
-          fetch(`http://localhost:9292/patterns_fabrics`, {
+          fetch(`http://localhost:9292/patterns/fabrics`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -176,7 +176,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             category_id: category,
             pattern_id: pattern.id
           }
-          fetch(`http://localhost:9292/patterns_categories`, {
+          fetch(`http://localhost:9292/patterns/categories`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
