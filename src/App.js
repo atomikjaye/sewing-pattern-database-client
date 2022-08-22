@@ -178,6 +178,7 @@ function App() {
               handleNewPatterns={handleNewPatterns}
             />
           } />
+
           <Route path={'/patterns/:patternId'} element={
             <PatternPage
               patternsObj={patterns}
