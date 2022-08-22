@@ -22,6 +22,15 @@ function App() {
   const [updated, setUpdated] = useState(0)
 
 
+  // const pattern = useMemo(
+  //   () => (
+  //     patterns.forEach((pattern) => {
+
+  //     })
+
+  //   )
+  // )
+
   console.log("App rendering")
 
   useEffect(() => {
@@ -54,9 +63,6 @@ function App() {
     //   companiesFetch = await companiesFetch.json()
     //   setCompanies(companiesFetch)
     // }
-
-
-
 
 
     async function getInfoFetch() {
@@ -125,14 +131,14 @@ function App() {
   const handleDelete = (id) => {
     const updatedPatterns = patterns.filter((pattern) => pattern.id !== id);
     setPatterns(updatedPatterns)
-    setUpdated("d")
+    setUpdated(Math.random())
   }
 
   console.log("COMPANIES", companies)
 
   const handleNewPatterns = (newPattern) => {
     setPatterns([...patterns, newPattern])
-    setUpdated("w")
+    setUpdated(Math.random())
     // let companiesNew = [...companies]
     // companiesNew.map((company) => {
     //   if (company.id === newPattern.company_id) {
