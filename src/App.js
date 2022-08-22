@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 // import logo from './logo.svg';
 // import './App.css';
 import './components/Add/AddPattern'
-import { Button, Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import AddPattern from './components/Add/AddPattern';
 import PatternsList from './components/Patterns/PatternsList';
 import PatternPage from './components/Patterns/PatternPage';
@@ -19,12 +19,22 @@ function App() {
   const [fabrics, setFabrics] = useState({})
   const [companies, setCompanies] = useState({})
   const [patterns, setPatterns] = useState([])
-  const [updated, setUpdated] = useState("")
+  const [updated, setUpdated] = useState(0)
 
+
+  // const pattern = useMemo(
+  //   () => (
+  //     patterns.forEach((pattern) => {
+
+  //     })
+
+  //   )
+  // )
 
   console.log("App rendering")
 
   useEffect(() => {
+    console.log("USE EFFECT")
     // fetch catgories GET
 
 
@@ -53,9 +63,6 @@ function App() {
     //   companiesFetch = await companiesFetch.json()
     //   setCompanies(companiesFetch)
     // }
-
-
-
 
 
     async function getInfoFetch() {
@@ -122,18 +129,16 @@ function App() {
   // console.log(categories)
 
   const handleDelete = (id) => {
-    const updatedPatterns = patterns.filter((pattern) => pattern.id != id);
+    const updatedPatterns = patterns.filter((pattern) => pattern.id !== id);
     setPatterns(updatedPatterns)
-    setUpdated("d")
-
-
+    setUpdated(Math.random())
   }
 
   console.log("COMPANIES", companies)
 
   const handleNewPatterns = (newPattern) => {
     setPatterns([...patterns, newPattern])
-    setUpdated("w")
+    setUpdated(Math.random())
     // let companiesNew = [...companies]
     // companiesNew.map((company) => {
     //   if (company.id === newPattern.company_id) {
@@ -145,7 +150,8 @@ function App() {
     // setCompanies(companiesNew)
   }
 
-  const ButtonExampleButton = () => <Button>Click Here</Button>
+
+
   return (
     <>
 

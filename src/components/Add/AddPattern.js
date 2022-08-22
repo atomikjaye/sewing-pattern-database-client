@@ -32,26 +32,26 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
 
   /// ADDING USEEFFECT to display image uploaded
 
-  useEffect(() => {
-    let fileReader, isCancel = false;
-    if (image) {
-      fileReader = new FileReader();
-      fileReader.onload = (e) => {
-        const { result } = e.target;
-        if (result && !isCancel) {
-          setFileDataURL(result)
-        }
-      }
-      fileReader.readAsDataURL(image);
-    }
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
-      }
-    }
+  // useEffect(() => {
+  //   let fileReader, isCancel = false;
+  //   if (image) {
+  //     fileReader = new FileReader();
+  //     fileReader.onload = (e) => {
+  //       const { result } = e.target;
+  //       if (result && !isCancel) {
+  //         setFileDataURL(result)
+  //       }
+  //     }
+  //     fileReader.readAsDataURL(image);
+  //   }
+  //   return () => {
+  //     isCancel = true;
+  //     if (fileReader && fileReader.readyState === 1) {
+  //       fileReader.abort();
+  //     }
+  //   }
 
-  }, [image]);
+  // }, [image]);
 
 
 
@@ -81,12 +81,13 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
       // Getting file from target event
       const file = e.target.files[0]
       // image validation
-      if (!file.type.match(imageMimeType)) {
-        alert("Image mime type is not valid");
-        return;
-      }
+      // if (!file.type.match(imageMimeType)) {
+      //   alert("Image mime type is not valid");
+      //   return;
+      // }
       // Set file if image validationis correct
-      setImage(file);
+      setImage('https://via.placeholder.com/200x280.png?text=Sewing+Pattern+Placeholder');
+      // setImage(file);
 
       console.log('FILES', e, data, "FILES", file)
       // setImage(e.target.value)
@@ -172,7 +173,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             fabric_id: fabric,
             pattern_id: pattern.id
           }
-          fetch(`http://localhost:9292/patterns_fabrics`, {
+          fetch(`http://localhost:9292/patterns/fabrics`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -187,7 +188,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             category_id: category,
             pattern_id: pattern.id
           }
-          fetch(`http://localhost:9292/patterns_categories`, {
+          fetch(`http://localhost:9292/patterns/categories`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -295,12 +296,12 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
         </IKContext>
 
         {/* // DISPLAY IMAGE */}
-        {fileDataURL ?
+        {/* {fileDataURL ?
           <p className="img-preview-wrapper">
             {
               <img src={fileDataURL} alt="preview" />
             }
-          </p> : null}
+          </p> : null} */}
 
         {/* <FileBase64
           multiple={true}

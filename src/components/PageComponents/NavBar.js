@@ -1,12 +1,13 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import { Menu, Image } from 'semantic-ui-react'
+import { Menu, Image, Icon } from 'semantic-ui-react'
 
 const NavBar = () => {
   return (
-    <Menu fixed='top' pointing inverted>
+    <Menu color='pink' fixed='top' pointing inverted>
       <Menu.Item as='a' header>
-        <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} />
+        {/* <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} /> */}
+        <Icon name="database" />
         Sewing Pattern Db
       </Menu.Item>
       <Menu.Item as={NavLink} to="/"
