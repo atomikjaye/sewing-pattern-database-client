@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import FileBase64 from 'react-file-base64'
 import { Form, Divider, Header, Input, TextArea, Button } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
@@ -20,6 +20,9 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
   const [yardage, setYardage] = useState(0)
   const [extras, setExtras] = useState('')
   // FOR FILES/IMAGES
+  let fileRef = useRef(null)
+  const [fileName, setFileName] = useState("")
+
   const [image, setImage] = useState(null)
   const [fileDataURL, setFileDataURL] = useState(null);
 
@@ -27,39 +30,6 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
   const [categoryList, setCategoryList] = useState([])
 
   const navigate = useNavigate();
-
-
-
-  /// ADDING USEEFFECT to display image uploaded
-
-  // useEffect(() => {
-  //   let fileReader, isCancel = false;
-  //   if (image) {
-  //     fileReader = new FileReader();
-  //     fileReader.onload = (e) => {
-  //       const { result } = e.target;
-  //       if (result && !isCancel) {
-  //         setFileDataURL(result)
-  //       }
-  //     }
-  //     fileReader.readAsDataURL(image);
-  //   }
-  //   return () => {
-  //     isCancel = true;
-  //     if (fileReader && fileReader.readyState === 1) {
-  //       fileReader.abort();
-  //     }
-  //   }
-
-  // }, [image]);
-
-
-
-
-
-  // DONE USEEFFECT
-
-
 
   // IMAGE VALIDATION
   const imageMimeType = /image\/(png|jpg|jpeg)/i;
@@ -80,16 +50,21 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
     } else if (e.target.name === 'image') {
       // Getting file from target event
       const file = e.target.files[0]
+      console.log("FILE", file)
+      console.log("FileREF", fileRef)
+      setFileName(e.target.files[0].name)
       // image validation
-      // if (!file.type.match(imageMimeType)) {
-      //   alert("Image mime type is not valid");
-      //   return;
-      // }
+      if (!file.type.match(imageMimeType)) {
+        alert("Image mime type is not valid");
+        return;
+      }
       // Set file if image validationis correct
-      setImage('https://via.placeholder.com/200x280.png?text=Sewing+Pattern+Placeholder');
+      // setImage('https://via.placeholder.com/200x280.png?text=Sewing+Pattern+Placeholder');
+      console.log(e.target.files[0])
+      setImage(e.target.files[0]);
       // setImage(file);
 
-      console.log('FILES', e, data, "FILES", file)
+      console.log('FILES', e, data, "FILES", file, image)
       // setImage(e.target.value)
 
     } else if (data.name === 'fabrics') {
@@ -142,27 +117,103 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
   //   image: "/images/S8561_envelope_front__14083.jpg"
   // }
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    console.log('Hello')
+  // function handleSubmit(e) {
+  //   e.preventDefault()
+  //   console.log('Hello')
 
-    const formData = {
-      company_id: patternCompany,
-      pattern_code: patternCode,
-      notions: notions,
-      size: size,
-      yardage: yardage,
-      extras: extras,
-      image: image
+  //   const formData = {
+  //     company_id: patternCompany,
+  //     pattern_code: patternCode,
+  //     notions: notions,
+  //     size: size,
+  //     yardage: yardage,
+  //     extras: extras,
+  //     image: image
+  //   }
+
+  //   //TODO: use Async
+  //   fetch(`http://localhost:9292/patterns`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(formData)
+  //   })
+  //     .then(r => r.json())
+  //     .then(pattern => {
+  //       // Create fabric Pattern association
+  //       for (let fabric of fabricList) {
+  //         console.log(fabric)
+  //         const fabricData = {
+  //           fabric_id: fabric,
+  //           pattern_id: pattern.id
+  //         }
+  //         fetch(`http://localhost:9292/patterns/fabrics`, {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json'
+  //           },
+  //           body: JSON.stringify(fabricData)
+  //         }).then(r => r.json())
+  //           .then(fabric => console.log(fabric))
+  //       }
+  //       // Create Pattern Category Association
+  //       for (let category of categoryList) {
+  //         const categoryData = {
+  //           category_id: category,
+  //           pattern_id: pattern.id
+  //         }
+  //         fetch(`http://localhost:9292/patterns/categories`, {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json'
+  //           },
+  //           body: JSON.stringify(categoryData)
+  //         }).then(r => r.json())
+  //           .then(category => {
+  //             console.log(category)
+  //             console.log("Handling Pattern Addition", pattern)
+  //             handleNewPatterns(pattern)
+  //           })
+  //       }
+
+  //       navigate("/")
+
+  //       // console.log("FROM ADDPATTEN", pattern)
+  //     })
+
+
+
+  // }
+  const REMOTE_HOST = "http://localhost:9292/"
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    console.log(fileRef)
+
+    const formData = new FormData();
+    formData.append("company_id", patternCompany)
+    formData.append("pattern_code", patternCode)
+    formData.append("notions", notions)
+    formData.append("size", size)
+    formData.append("yardage", yardage)
+    formData.append("extras", extras)
+    formData.append("image", fileRef.current)
+
+    const config = {
+      method: "post",
+      body: formData
     }
 
     //TODO: use Async
-    fetch(`http://localhost:9292/patterns`, {
+    fetch(`${REMOTE_HOST + 'patterns'}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: formData
     })
       .then(r => r.json())
       .then(pattern => {
@@ -173,7 +224,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             fabric_id: fabric,
             pattern_id: pattern.id
           }
-          fetch(`http://localhost:9292/patterns/fabrics`, {
+          fetch(`${REMOTE_HOST + 'patterns/fabrics'}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -188,7 +239,7 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             category_id: category,
             pattern_id: pattern.id
           }
-          fetch(`http://localhost:9292/patterns/categories`, {
+          fetch(`${REMOTE_HOST + 'patterns/categories'}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -201,15 +252,11 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
               handleNewPatterns(pattern)
             })
         }
-
-        navigate("/")
-
-        // console.log("FROM ADDPATTEN", pattern)
       })
-
-
-
   }
+
+
+
 
   // const getFiles = (file) => {
   //   setFile(file)
@@ -282,18 +329,20 @@ const Upload = ({ categoriesObject, fabricsObj, companiesObj, handleNewPatterns 
             onChange={handleChange}
           />
         </Form.Group>
-        <IKContext publicKey={publicKey} urlEndpoint={urlEndpoint} authenticationEndpoint={authenticationEndpoint}>
-          {/* FILE */}
-          <Form.Input
-            as={IKUpload}
-            type="file" fluid
-            label='Pattern Image'
-            name='image'
-            accept="image/*"
-            // value={image}
-            onChange={handleChange}
-          />
-        </IKContext>
+        {/* <IKContext publicKey={publicKey} urlEndpoint={urlEndpoint} authenticationEndpoint={authenticationEndpoint}> */}
+        {/* FILE */}
+        <Form.Input
+          // as={IKUpload}
+          type="file" fluid
+          label='Pattern Image'
+          name='image'
+          ref={fileRef}
+          accept="image/*"
+          value={image}
+          onChange={handleChange}
+        />
+        {<img src={fileRef.current} />}
+        {/* </IKContext> */}
 
         {/* // DISPLAY IMAGE */}
         {/* {fileDataURL ?
